@@ -2,7 +2,6 @@
 
 proxysql_version: 2.0.15
 proxysql_package: "https://github.com/sysown/proxysql/releases/download/v{{ proxysql_version }}/proxysql_{{ proxysql_version }}-ubuntu16_amd64.deb"
-proxysql_docker_image: proxysql/proxysql
 proxysql_admin_port: 6032
 proxysql_mysql_ports: []
 proxysql_ports: "{{ [proxysql_admin_port] + proxysql_mysql_ports }}"
@@ -10,8 +9,8 @@ proxysql_ports_docker_string: "{% for port in proxysql_ports %}{{ port }}:{{ por
 proxysql_ports_docker: "{{ proxysql_ports_docker_string.split(',') }}"
 proxysql_data_dir: /var/lib/proxysql
 proxysql_run_dir: /var/run/proxysql
-proxysql_uid: 997
-proxysql_gid: 996
+proxysql_uid: "997"
+proxysql_gid: "996"
 
 proxysql_admin_user: admin
 proxysql_admin_password: admin
