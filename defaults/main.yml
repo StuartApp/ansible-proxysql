@@ -1,0 +1,54 @@
+---
+
+proxysql_version: 2.0.15
+proxysql_package: "https://github.com/sysown/proxysql/releases/download/v{{ proxysql_version }}/proxysql_{{ proxysql_version }}-ubuntu16_amd64.deb"
+proxysql_docker_image: proxysql/proxysql
+proxysql_admin_port: 6032
+proxysql_mysql_ports: []
+proxysql_ports: "{{ [proxysql_admin_port] + proxysql_mysql_ports }}"
+proxysql_ports_docker_string: "{% for port in proxysql_ports %}{{ port }}:{{ port }}{% if not loop.last %},{% endif %}{% endfor %}"
+proxysql_ports_docker: "{{ proxysql_ports_docker_string.split(',') }}"
+proxysql_data_dir: /var/lib/proxysql
+proxysql_run_dir: /var/run/proxysql
+proxysql_uid: 997
+proxysql_gid: 996
+
+proxysql_admin_user: admin
+proxysql_admin_password: admin
+proxysql_admin_enable_sockfile: false
+proxysql_admin_ifaces: "0.0.0.0:{{ proxysql_admin_port }}{{ proxysql_admin_enable_sockfile | ternary(';' + proxysql_run_dir + '/proxysql.sock', '') }}"
+proxysql_admin_web_enabled: "true"
+
+proxysql_custom_settings: {}
+proxysql_mysql_variables_defaults:
+  threads: 4
+  max_connections: 2048
+  default_query_delay: 0
+  default_query_timeout: 36000000
+  have_compress: true
+  poll_timeout: 2000
+  interfaces: "0.0.0.0:6033"
+  default_schema: "information_schema"
+  stacksize: 1048576
+  server_version: "8.0.15"
+  connect_timeout_server: 3000
+  monitor_username: "admin"
+  monitor_password: "admin"
+  monitor_history: 600000
+  monitor_connect_interval: 60000
+  monitor_ping_interval: 10000
+  monitor_read_only_interval: 1500
+  monitor_read_only_timeout: 500
+  ping_interval_server_msec: 120000
+  ping_timeout_server: 500
+  commands_stats: true
+  sessions_sort: true
+  connect_retries_on_failure: 10
+
+proxysql_mysql_variables_custom: {}
+proxysql_mysql_variables: "{{ proxysql_mysql_variables_defaults | combine(proxysql_mysql_variables_custom) }}"
+
+proxysql_mysql_servers: []
+proxysql_mysql_users: []
+proxysql_mysql_query_rules: []
+

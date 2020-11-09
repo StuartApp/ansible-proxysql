@@ -1,0 +1,50 @@
+---
+
+- name: Install mysql-client
+  package:
+    name: mysql-client
+
+- name: Create ProxySQL directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0750'
+    owner: "{{ proxysql_uid }}"
+    group: "{{ proxysql_gid }}"
+  loop:
+    - " {{proxysql_data_dir }}"
+    - " {{proxysql_run_dir }}"
+
+- name: ProxySQL config
+  template:
+    src: proxysql.cnf.j2
+    dest: /etc/proxysql.cnf
+    mode: '0640'
+    owner: "{{ proxysql_uid }}"
+    group: "{{ proxysql_gid }}"
+
+- name: Install ProxySQL
+  apt:
+    deb: "{{ proxysql_package }}"
+
+- name: Load config file to memory
+  command: mysql -h 127.0.0.1 -P "{{ proxysql_admin_port }}" -u "{{ proxysql_admin_user }}" -p"{{ proxysql_admin_password }}" -e "LOAD {{ item }} FROM CONFIG"
+  loop:
+    - ADMIN VARIABLES
+    - PROXYSQL SERVERS
+    - MYSQL USERS
+    - MYSQL SERVERS
+    - MYSQL QUERY RULES
+    - MYSQL VARIABLES
+    - SCHEDULER
+
+- name: Load memory to runtime
+  command: mysql -h 127.0.0.1 -P "{{ proxysql_admin_port }}" -u "{{ proxysql_admin_user }}" -p"{{ proxysql_admin_password }}" -e "LOAD {{ item }} TO RUNTIME"
+  loop:
+    - ADMIN VARIABLES
+    - PROXYSQL SERVERS
+    - MYSQL USERS
+    - MYSQL SERVERS
+    - MYSQL QUERY RULES
+    - MYSQL VARIABLES
+    - SCHEDULER

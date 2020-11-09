@@ -1,0 +1,78 @@
+datadir="{{ proxysql_data_dir }}"
+{% for setting in proxysql_custom_settings %}
+{%   if proxysql_custom_settings[setting] is number %}
+{{ setting }}={{ proxysql_custom_settings[setting] }}
+{%   else %}
+{{ setting }}="{{ proxysql_custom_settings[setting] }}"
+{%   endif %}
+{% endfor %}
+admin_variables=
+{
+  admin_credentials="{{ proxysql_admin_user }}:{{ proxysql_admin_password }}"
+  mysql_ifaces="{{ proxysql_admin_ifaces }}"
+  web_enabled={{ proxysql_admin_web_enabled }}
+}
+
+mysql_variables=
+{
+{% for var in proxysql_mysql_variables %}
+{%   if proxysql_mysql_variables[var] is number %}
+  {{ var }}={{ proxysql_mysql_variables[var] }}
+{%   else %}
+  {{ var }}="{{ proxysql_mysql_variables[var] }}"
+{%   endif %}
+{% endfor %}
+}
+
+mysql_servers =
+(
+{% for server in proxysql_mysql_servers %}
+  {
+{%   for setting in server %}
+{%     if server[setting] is number %}
+    {{ setting }}={{ server[setting] }}
+{%     else %}
+    {{ setting }}="{{ server[setting] }}"
+{%     endif %}
+{%   endfor %}
+  },
+{% endfor %}
+)
+
+mysql_users:
+(
+{% for user in proxysql_mysql_users %}
+  {
+{%   for setting in user %}
+{%     if user[setting] is number %}
+    {{ setting }}={{ user[setting] }}
+{%     else %}
+    {{ setting }}="{{ user[setting] }}"
+{%     endif %}
+{%   endfor %}
+  },
+{% endfor %}
+)
+
+mysql_query_rules:
+(
+{% for rule in proxysql_mysql_query_rules %}
+  {
+{%   for setting in rule %}
+{%     if rule[setting] is number %}
+    {{ setting }}={{ rule[setting] }}
+{%     else %}
+    {{ setting }}="{{ rule[setting] }}"
+{%     endif %}
+{%   endfor %}
+  },
+{% endfor %}
+)
+
+scheduler=
+(
+)
+
+mysql_replication_hostgroups=
+(
+)
