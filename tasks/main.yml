@@ -48,3 +48,16 @@
     - MYSQL QUERY RULES
     - MYSQL VARIABLES
     - SCHEDULER
+
+- name: Save memory to disk
+  command: mysql -h 127.0.0.1 -P "{{ proxysql_admin_port }}" -u "{{ proxysql_admin_user }}" -p"{{ proxysql_admin_password }}" -e "SAVE {{ item }} TO DISK"
+  loop:
+    - ADMIN VARIABLES
+    - PROXYSQL SERVERS
+    - MYSQL USERS
+    - MYSQL SERVERS
+    - MYSQL QUERY RULES
+    - MYSQL VARIABLES
+    - SCHEDULER
+
+- import_tasks: prometheus.yml

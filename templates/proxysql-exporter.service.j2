@@ -1,0 +1,12 @@
+[Unit]
+Description=Prometheus ProxySQL exporter
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Restart=on-failure
+Environment=DATA_SOURCE_NAME={{ proxysql_admin_stats_user }}:{{ proxysql_admin_stats_password }}@tcp(127.0.0.1:{{ proxysql_admin_port }})/
+ExecStart=/opt/proxysql_exporter/proxysql_exporter {{ proxysql_exporter_flags }}
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,31 @@
+---
+
+- name: Download proxysql exporter
+  get_url:
+    url: https://github.com/percona/proxysql_exporter/releases/download/v1.1.0/proxysql_exporter-1.1.0.linux-amd64.tar.gz
+    dest: /tmp/proxysql_exporter.tar.gz
+
+- name: Create proxysql exporter installation dir
+  file:
+    path: /opt/proxysql_exporter
+    state: directory
+
+- name: Install proxysql exporter
+  unarchive:
+    src: /tmp/proxysql_exporter.tar.gz
+    dest: /opt/proxysql_exporter
+    extra_opts:
+      - --strip-components=1
+    remote_src: true
+
+- name: Systemd for proxysql exporter
+  template:
+    src: proxysql-exporter.service.j2
+    dest: /etc/systemd/system/proxysql-exporter.service
+  notify: proxysql restart
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+
+

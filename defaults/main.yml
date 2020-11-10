@@ -17,6 +17,8 @@ proxysql_admin_password: admin
 proxysql_admin_enable_sockfile: false
 proxysql_admin_ifaces: "0.0.0.0:{{ proxysql_admin_port }}{{ proxysql_admin_enable_sockfile | ternary(';' + proxysql_run_dir + '/proxysql.sock', '') }}"
 proxysql_admin_web_enabled: "true"
+proxysql_admin_stats_user: stats
+proxysql_admin_stats_password: stats
 
 proxysql_custom_settings: {}
 proxysql_mysql_variables_defaults:
@@ -51,3 +53,7 @@ proxysql_mysql_servers: []
 proxysql_mysql_users: []
 proxysql_mysql_query_rules: []
 
+proxysql_exporter_enable: true
+proxysql_exporter_version: 1.1.0
+proxysql_exporter_url: "https://github.com/percona/proxysql_exporter/releases/download/v{{ proxysql_exporter_version }}/proxysql_exporter-{{ proxysql_exporter_version }}.linux-amd64.tar.gz"
+proxysql_exporter_flags: "-web.listen-address :9101"

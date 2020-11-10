@@ -1,2 +1,8 @@
 ---
-# handlers file for stuart-proxysql
+
+- name: proxysql-exporter restart
+  systemd:
+    name: proxysql-exporter
+    state: restarted
+    enabled: yes
+
