@@ -44,8 +44,8 @@
     - MYSQL VARIABLES
     - SCHEDULER
 
-- name: Load memory to runtime
-  command: mysql -h 127.0.0.1 -P "{{ proxysql_admin_port }}" -u "{{ proxysql_admin_user }}" -p"{{ proxysql_admin_password }}" -e "LOAD {{ item }} TO RUNTIME"
+- name: Save memory to disk
+  command: mysql -h 127.0.0.1 -P "{{ proxysql_admin_port }}" -u "{{ proxysql_admin_user }}" -p"{{ proxysql_admin_password }}" -e "SAVE {{ item }} TO DISK"
   loop:
     - ADMIN VARIABLES
     - PROXYSQL SERVERS
@@ -55,8 +55,8 @@
     - MYSQL VARIABLES
     - SCHEDULER
 
-- name: Save memory to disk
-  command: mysql -h 127.0.0.1 -P "{{ proxysql_admin_port }}" -u "{{ proxysql_admin_user }}" -p"{{ proxysql_admin_password }}" -e "SAVE {{ item }} TO DISK"
+- name: Load memory to runtime
+  command: mysql -h 127.0.0.1 -P "{{ proxysql_admin_port }}" -u "{{ proxysql_admin_user }}" -p"{{ proxysql_admin_password }}" -e "LOAD {{ item }} TO RUNTIME"
   loop:
     - ADMIN VARIABLES
     - PROXYSQL SERVERS
