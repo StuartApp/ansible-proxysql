@@ -27,6 +27,12 @@
   apt:
     deb: "{{ proxysql_package }}"
 
+- name: Enable and start ProxySQL service
+  systemd:
+    name: proxysql
+    enabled: true
+    state: started
+
 - name: Load config file to memory
   command: mysql -h 127.0.0.1 -P "{{ proxysql_admin_port }}" -u "{{ proxysql_admin_user }}" -p"{{ proxysql_admin_password }}" -e "LOAD {{ item }} FROM CONFIG"
   loop:
