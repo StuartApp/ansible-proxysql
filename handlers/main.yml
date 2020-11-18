@@ -6,3 +6,7 @@
     state: restarted
     enabled: yes
 
+- name: consul reload
+  systemd:
+    name: consul
+    state: reloaded

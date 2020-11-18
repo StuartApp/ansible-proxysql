@@ -28,4 +28,9 @@
   systemd:
     daemon_reload: yes
 
-
+- name: Consul config for prometheus
+  copy:
+    dest: /etc/consul/consul.d/proxysql.json
+    content: >
+      {"service": {"name": "prometheus-node-exporter", "meta": {"role": "proxysql"}, "tags": ["prometheus-scraper"], "port": 9101}}
+  notify: consul reload
