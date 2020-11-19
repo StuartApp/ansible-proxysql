@@ -26,7 +26,7 @@ proxysql_mysql_variables_defaults:
   max_connections: 2048
   default_query_delay: 0
   default_query_timeout: 36000000
-  have_compress: true
+  have_compress: "true"
   poll_timeout: 2000
   interfaces: "0.0.0.0:6033"
   default_schema: "information_schema"
@@ -42,8 +42,8 @@ proxysql_mysql_variables_defaults:
   monitor_read_only_timeout: 500
   ping_interval_server_msec: 120000
   ping_timeout_server: 500
-  commands_stats: true
-  sessions_sort: true
+  commands_stats: "true"
+  sessions_sort: "true"
   connect_retries_on_failure: 10
 
 proxysql_mysql_variables_custom: {}
@@ -52,6 +52,7 @@ proxysql_mysql_variables: "{{ proxysql_mysql_variables_defaults | combine(proxys
 proxysql_mysql_servers: []
 proxysql_mysql_users: []
 proxysql_mysql_query_rules: []
+proxysql_replication_hostgroups: []
 
 proxysql_exporter_enable: true
 proxysql_exporter_version: 1.1.0

@@ -16,7 +16,7 @@ admin_variables=
 
 mysql_variables=
 {
-{% for var in proxysql_mysql_variables %}
+{% for var in (proxysql_mysql_variables | sort) %}
 {%   if proxysql_mysql_variables[var] is number %}
   {{ var }}={{ proxysql_mysql_variables[var] }}
 {%   else %}
@@ -76,4 +76,15 @@ scheduler=
 
 mysql_replication_hostgroups=
 (
+{% for replication_hostgroup in proxysql_replication_hostgroups %}
+  {
+{%   for setting in replication_hostgroup %}
+{%     if rule[setting] is number %}
+    {{ setting }}={{ replication_hostgroup[setting] }}
+{%     else %}
+    {{ setting }}="{{ replication_hostgroup[setting] }}"
+{%     endif %}
+{%   endfor %}
+  },
+{% endfor %}
 )
