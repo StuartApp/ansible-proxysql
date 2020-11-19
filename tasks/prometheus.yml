@@ -32,5 +32,5 @@
   copy:
     dest: /etc/consul/consul.d/proxysql.json
     content: >
-      {"service": {"name": "prometheus-node-exporter", "meta": {"role": "proxysql"}, "tags": ["prometheus-scraper"], "port": 9101}}
+      {"service": {"id": "proxysql-exporter", "tags": ["prometheus-scraper", "proxysql"], "name": "prometheus-node-exporter", "port": 9101, "meta": {"role": "proxysql"}}}
   notify: consul reload
