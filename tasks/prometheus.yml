@@ -34,3 +34,12 @@
     content: >
       {"service": {"id": "proxysql-exporter", "tags": ["prometheus-scraper", "proxysql"], "name": "prometheus-node-exporter", "port": 9101, "meta": {"role": "proxysql"}}}
   notify: consul reload
+
+- name: Consul config for prometheus Native Exporter
+  copy:
+    dest: /etc/consul/consul.d/proxysql-native.json
+    content: >
+      {"service": {"id": "proxysql-native-exporter", "tags": ["prometheus-scraper", "proxysql-native"], "name": "prometheus-node-exporter", "port": 6070, "meta": {"role": "proxysql-native"}}}
+  notify: consul reload
+
+
