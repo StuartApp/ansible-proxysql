@@ -12,7 +12,7 @@ admin_variables=
   mysql_ifaces="{{ proxysql_admin_ifaces }}"
   web_enabled={{ proxysql_admin_web_enabled }}
   stats_credentials="{{ proxysql_admin_stats_user }}:{{ proxysql_admin_stats_password }}"
-{% if '2.2.2' in proxysql_version %}
+{% if proxysql_version if version('2.1.0', operator='<)', version_type='semantic'))%}
   restapi_enabled={{ proxysql_admin_restapi_enabled }}
   restapi_port={{ proxysql_admin_restapi_port }}
   prometheus_memory_metrics_interval={{ proxysql_admin_prometheus_memory_metrics_interval }}
