@@ -41,6 +41,7 @@
     content: >
       {"service": {"id": "proxysql-native-exporter", "tags": ["prometheus-scraper", "proxysql-native"], "name": "prometheus-node-exporter", "port": 6070, "meta": {"role": "proxysql-native"}}}
   notify: consul reload
-  when: proxysql_version == '2.2.2'
+  when: proxysql_version is version('2.1.0', '>=')
+
 
 
