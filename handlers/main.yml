@@ -10,3 +10,8 @@
   systemd:
     name: consul
     state: reloaded
+
+- name: filebeat-ng restart
+  systemd:
+    name: filebeat-ng
+    state: restarted

@@ -67,3 +67,4 @@
     - SCHEDULER
 
 - import_tasks: prometheus.yml
+- import_tasks: filebeat_override.yml
