@@ -1,0 +1,43 @@
+---
+
+- name: Parse ProxySQL filebeat input
+  set_fact:
+    proxysql_input:
+      filebeat:
+        inputs:
+          - fields:
+              env: "{{ stuart_env }}"
+              type: syslog
+            fields_under_root: true
+            ignore_older: 24h
+            paths:
+              - /var/lib/proxysql/proxysql.log
+            type: log
+
+- name: Backup filebeat configuration
+  copy:
+    src: /opt/filebeat-ng/filebeat.yml
+    dest: /opt/filebeat-ng/filebeat.yml.bak
+    mode: preserve
+    remote_src: true
+
+- name: Fetch filebeat-ng config
+  fetch:
+    src: /opt/filebeat-ng/filebeat.yml
+    dest: /tmp/
+    flat: true
+  register: filebeat_yml
+
+- include_vars:
+    file: /tmp/filebeat.yml
+    name: filebeat_config
+
+- name: Override filebeat-ng configuration
+  set_fact:
+    final_filebeat_config: "{{ filebeat_config | combine(proxysql_input, recursive=true, list_merge='append_rp') }}"
+
+- name: Copy override to file
+  copy:
+    content: "{{ final_filebeat_config | to_yaml }}"
+    dest: /opt/filebeat-ng/filebeat.yml
+  notify: filebeat-ng restart
